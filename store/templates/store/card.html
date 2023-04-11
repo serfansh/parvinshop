@@ -1,0 +1,58 @@
+{% extends 'main.html' %}
+{% load humanize %}
+
+{% block content %}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-lg-6">
+          {% if orderitems %}
+            {% for item in orderitems %}
+            <a href="{% url 'product' item.product.id %}" style="text-decoration:none; color: #300202;">
+            <div class="card mb-3" style="max-width: 800px;">
+                <div class="row g-0">
+                  <div class="col-md-3">
+                    <img src="{{item.image}}" class="img-fluid rounded-start" style="height: 10rem; object-fit: cover; width: 100%;" alt="...">
+                  </div>
+                  <div class="col-md-9">
+                    <div class="card-body">
+                      <h5 class="card-title text-center">{{item.name|truncatewords:7}}</h5>
+                      <p class="card-text text-center">تعداد: {{item.qty}},  {{item.details}}</p>
+                         <p class="card-text text-center">قیمت: {{item.price|intcomma}} تومان </p>
+                         <form action="" method="POST">
+                          {% csrf_token %}
+                           <button type="submit" class="btn btn-danger btn-lg position-absolute top-50 end-0 m-3 p-2" name="itemid" value="{{item.id}}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                              <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                              <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                            </svg>
+                           </button>
+                          </form> 
+                      </div>
+                  </div>
+                </div>
+              </div>
+            </a>
+            {% endfor %}
+            {% else %}
+              <h3 class="text-center">محصولی سفارش داد نشده</h3>
+            {% endif %}
+        </div>
+        <div class="col ms-3">
+          {% if order %}
+            <h2 class="text-end">سفارش های من</h2>
+            <h3 class="text-end fw-normal">قیمت نهایی: {{order.totalPrice|intcomma}}</h3>
+            <h3 class="text-end fw-normal">قیمت پست: {{order.shippingPrice|intcomma}}</h3>
+          {% else %}
+           <h3>محصولی سفارش داد نشده</h3>
+          {% endif %}
+            <hr>
+            <h3 class="text-end">آدرس شما</h3>
+            <h4 class="text-end fw-normal">{{address.city}} - {{address.address}}</h4>
+            <h5 class="text-end fw-normal">کد پستی: {{address.postalcode}}</h5>
+            <a href="" class="btn btn-dark btn-lg mt-3">تکمیل سفارش</a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

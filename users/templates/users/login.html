@@ -1,0 +1,52 @@
+{% extends 'main.html' %}
+
+
+{% block content %}
+<div class="container">
+<div class="row">
+    <div class="col"></div>
+
+    <div class="col-md-9 justy-content-center">
+    <form action="" method="POST" class="form-group m-4">
+        {% csrf_token %}
+
+        <div class="input-group mb-3">
+
+            <div class="form-floating">
+            <input type="text" class="form-control text-end" id="floatingInputGroup1" placeholder="username" name="username">
+            <label class="text-end" for="formInput#text">نام کاربری </label>
+            </div>
+            <span class="input-group-text"><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+                <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+                </svg></span>
+        </div>
+        
+        <div class="input-group mb-3">
+
+            <div class="form-floating">
+            <input type="password" class="form-control text-end" id="floatingInputGroup1" placeholder="password" name="password">
+            <label class="text-end" for="formInput#text">رمز عبور</label>
+            </div>
+            <span class="input-group-text"><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-key" viewBox="0 0 16 16">
+                <path d="M0 8a4 4 0 0 1 7.465-2H14a.5.5 0 0 1 .354.146l1.5 1.5a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0L13 9.207l-.646.647a.5.5 0 0 1-.708 0L11 9.207l-.646.647a.5.5 0 0 1-.708 0L9 9.207l-.646.647A.5.5 0 0 1 8 10h-.535A4 4 0 0 1 0 8zm4-3a3 3 0 1 0 2.712 4.285A.5.5 0 0 1 7.163 9h.63l.853-.854a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.793-.793-1-1h-6.63a.5.5 0 0 1-.451-.285A3 3 0 0 0 4 5z"/>
+                <path d="M4 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+            </svg></span>
+        </div>
+
+        <input class="btn btn-center btn-dark mb-3 me-3" type="submit" value="لاگین" />
+
+    </form>
+    </div>
+
+    <div class="col"></div>
+</div>
+
+    <div class="auth__alternative text-center">
+        
+        <h4><a  style="color: rgb(0, 8, 69);" href="{% url 'register' %}">می خواهم ثبت نام </a></h4>
+    </div>
+
+</div>
+
+{% endblock %}
