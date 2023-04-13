@@ -12,7 +12,7 @@ from .utils import searchProducts, paginateProducts, deletestuff
 def home(request):
     products = Product.objects.all()[:12]
 
-    context = {'products': products}
+    context = {'products': products, 'store': True}
     return render(request, 'store/store.html', context)
 
 
@@ -97,12 +97,17 @@ def addProduct(request):
     
     if request.method == "POST":
         form = ProductForm(request.POST, request.FILES)
+        csqpform = CsqpForm(request.POST)
         images = request.FILES.getlist('images')
         if form.is_valid():
-            product = form.save(commit=False)
-            product.save()
+            product = form.save()
             for image in images:
                 Image.objects.create(product=product, image=image)
+
+            if csqpform.is_valid():
+                csqpform = csqpform.save(commit=False)
+                csqpform.product = product
+                csqpform.save() 
 
             return redirect('product', product.id)
 

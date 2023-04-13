@@ -8,7 +8,9 @@
         <div class="col-lg-6">
           {% if orderitems %}
             {% for item in orderitems %}
+            {% if item.product %}
             <a href="{% url 'product' item.product.id %}" style="text-decoration:none; color: #300202;">
+            {% endif %}
             <div class="card mb-3" style="max-width: 800px;">
                 <div class="row g-0">
                   <div class="col-md-3">

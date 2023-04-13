@@ -22,7 +22,7 @@ class Product(models.Model):
     clothes_for = models.CharField(max_length=250, choices=genders, null=True, blank=True)
     price = models.IntegerField()
     detail = models.ManyToManyField('Detail', blank=True)
-    rating = models.IntegerField()
+    rating = models.IntegerField() # make a rating from 1 to 5
     main_image = models.ImageField(null=True, blank=True, 
     default='GettyImages_1177471633.jpg', upload_to='products/')
     created = models.DateTimeField(auto_now_add=True)

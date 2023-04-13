@@ -43,4 +43,8 @@ class CsqpForm(ModelForm):
         model = Csqp
         fields = '__all__'
         exclude = ['product']
-    
+
+    def __init__(self, *args, **kwargs):
+        super(CsqpForm, self).__init__( *args, **kwargs)
+        for name, field in self.fields.items():
+            field.widget.attrs.update({'class': 'form-control'})  
