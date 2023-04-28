@@ -6,7 +6,7 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 from .forms import CustomUserCreationForm
 from .models import UserAddress, Order, OrderItem
-from .utils import getAdress, getLastOrder, getAllOrders, saveAddress
+from .utils import getAdress, getLastOrder, getAllOrders, saveAddress, getOrder
 
 
 
@@ -68,21 +68,18 @@ def userAccount(request):
     user = request.user
     address = getAdress(user)
     # order, order_items = getLastOrder(user)
-    orders = getAllOrders(user)
+    orders, ordders = getAllOrders(user)
     if request.method == 'POST':
-        print(request.POST)
         saveAddress(request, address)
-            
 
     context = {'user': user, 'address': address, 
-    'orders': orders}
+    'orders': orders, 'ordders': ordders}
     return render(request, 'users/account.html', context) 
-
+ 
 
 @login_required(login_url='login')
 def editUser(request):
     if request.method == "POST":
-        print(request.POST)
         user = request.user
         user.username = request.POST.get('username')
         user.first_name = request.POST.get('first_name')
@@ -95,3 +92,44 @@ def editUser(request):
             messages.error(request, 'Something Went Wrong!')
 
     return redirect('account')
+
+
+@login_required(login_url='login')
+def changePassword(request):
+
+    if request.method == 'POST':
+        user = request.user
+
+        password = request.POST.get('password')
+        new_password1 = request.POST.get('newpassword1')
+        new_password2 = request.POST.get('newpassword2')
+
+        if user.check_password(password):
+            
+            if new_password1 != new_password2:
+                messages.error(request, 'باید رمز عبور جدید با تکرار رمز عبور مشابه باشند')
+            else:
+                user.set_password(new_password1)
+                user.save()
+        else:
+            messages.error(request, 'رمز عبور اشتباه وارد شده')
+        
+    return render(request, 'users/change_password.html')
+
+
+def card(request):
+    order, orderitems = getOrder(request)
+
+    address = request.user.useraddress
+    
+    if request.method == "POST":
+        item = OrderItem.objects.get(id=request.POST.get('itemid'))
+        order.totalPrice -= item.price
+        item.delete()
+        order.save()
+
+    totalprice = order.totalPrice + order.shippingPrice
+
+    context = {'order': order, 'orderitems': orderitems,
+     'address': address, 'totalprice': totalprice}
+    return render(request, 'users/card.html', context)

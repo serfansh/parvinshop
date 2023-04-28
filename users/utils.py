@@ -30,9 +30,14 @@ def getAllOrders(user):
     except:
         orders = None
     
-    orders = [(order, order.orderitem_set.all()) for order in orders]
+    orderz = []
+    ordders = []
+    for order in orders:
+        orderz += [(order, order.orderitem_set.all())]
+        if order.isDelivered == False and order.isPaid == True:
+            ordders += [(order, order.orderitem_set.all())]
 
-    return orders
+    return orderz, ordders
 
 
 def saveAddress(request, address):
@@ -63,3 +68,19 @@ def saveAddress(request, address):
             address.save()
         except:
             pass
+
+
+def getOrder(request):
+    try:
+        order = request.user.order_set.all()[0]
+        if order.isPaid:
+            raise Exception()
+    except:
+        order = Order.objects.create(user=request.user)
+     
+    if order:
+        orderitems = order.orderitem_set.all()
+    else:
+        orderitems = None
+    
+    return order, orderitems

@@ -1,0 +1,65 @@
+{% extends 'main.html' %}
+{% load humanize %}
+
+{% block content %}
+
+<div class="container">
+    <a class="btn btn-primary mt-3" href="{{request.GET.next}}">Go back</a>
+    <div class="row">
+        <div class="col col-md-8 justy-content-center">
+        <form class="form-group m-4" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            {% if page == 'color' %}
+            <h3 class="text-center">اسم رنگ را وارد کنید</h3>
+            {% else %}
+            <h3 class="text-center">اسم سایز را وارد کنید</h3>
+            {% endif %}
+            
+                {% for field in form %}
+                <!-- Input:Text -->
+                <div class="form__field">
+                    <label for="formInput#text">{{field.label}}</label>
+                    {{field}}
+                </div>
+                {% endfor %}
+                <br>
+
+
+                <button class="btn btn-primary" type="submit">ثبت کردن</button>
+            </form>
+        </div>
+
+        <div class="col justy-content-center">
+            <form class="form-group m-4" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {% if page == 'color' %}
+                <h4 class="text-center m-4">رنگ ها </h4>
+                {% for color in colors %}
+                    <p class="text-center">{{color.name}} <button type="submit" class="btn btn-danger btn-sm p-2" name="colorid" value="{{color.id}}">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                        <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                        </svg>
+                    </button></p>
+                {% endfor %}
+
+                {% else %}
+                
+                <h4 class="text-center m-4">سایز ها </h4>
+                {% for size in sizes %}
+                    <p class="text-center">{{size.name}} <button type="submit" class="btn btn-danger btn-sm p-2" name="sizeid" value="{{size.id}}">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                        <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                        </svg>
+                    </button></p>
+                {% endfor %}
+                
+                {% endif %}
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -4,35 +4,34 @@
 {% block content %}
 
 
-    <div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel">
-            <div class="carousel-inner">
-                <div class="carousel-item active c-item" data-bs-interval="5000">
-                    <img src="static/images/carousel/IMG_4208.JPG" class="d-block w-100 c-img" alt="..." >
-                    <div class="carousel-caption d-none d-md-block">
-                    </div>
-                </div>
-                
-                <div class="carousel-item c-item" data-bs-interval="5000">
-                    <img src="static/images/carousel/IMG_4397.JPG" class="d-block w-100 c-img" alt="...">
-                </div>
-        
-                <div class="carousel-item c-item" data-bs-interval="5000">
-                    <img src="static/images/carousel/IMG_43151.jpg" class="d-block w-100 c-img" alt="...">
-
+<div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active c-item" data-bs-interval="5000">
+                <img src="static/images/carousel/IMG_4208.JPG" class="d-block w-100 c-img" alt="..." >
+                <div class="carousel-caption d-none d-md-block">
                 </div>
             </div>
             
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
-    </div>
+            <div class="carousel-item c-item" data-bs-interval="5000">
+                <img src="static/images/carousel/IMG_4397.JPG" class="d-block w-100 c-img" alt="...">
+            </div>
+    
+            <div class="carousel-item c-item" data-bs-interval="5000">
+                <img src="static/images/carousel/IMG_43151.jpg" class="d-block w-100 c-img" alt="...">
 
-<!-- <div class="container-fuild text-center bg-gradient bg-light p-3"><h1>Wellcome to PavinShop</h1></div> -->
+            </div>
+        </div>
+        
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
+
 
 <div class="d-flex justify-content-center p-5"  style="background: rgb(226,226,226);
 background: linear-gradient(0deg, rgba(226,226,226,0.9585084033613446) 0%, rgba(237,237,237,1) 100%);"  >
@@ -40,7 +39,7 @@ background: linear-gradient(0deg, rgba(226,226,226,0.9585084033613446) 0%, rgba(
     
     <a href="{% url 'products' %}?clothes_for=w" class="m-2">
         <div id="epiccard" class="card text-bg-dark card-item m-2 w-100">
-            <img src="static/images/S8bVFu.jpg" alt="...">
+            <img class="rounded" src="static/images/S8bVFu.jpg" alt="...">
             <div class="card-img-overlay">
             <h3 class="card-title text-start">زنانه</h3>
             </div>
@@ -49,7 +48,7 @@ background: linear-gradient(0deg, rgba(226,226,226,0.9585084033613446) 0%, rgba(
 
     <a href="{% url 'products' %}?clothes_for=g" class="m-2">
         <div id="epiccard" class="card text-bg-dark card-item m-2 w-100">
-            <img src="static/images/peakdsdfs.jpg" alt="...">
+            <img class="rounded" src="static/images/peakdsdfs.jpg" alt="...">
             <div class="card-img-overlay">
             <h3 class="card-title text-start">دخترانه</h3>
             </div>
@@ -58,7 +57,7 @@ background: linear-gradient(0deg, rgba(226,226,226,0.9585084033613446) 0%, rgba(
 
     <a href="{% url 'products' %}?clothes_for=b" class="m-2">
         <div id="epiccard" class="card text-bg-dark card-item m-2 w-100">
-            <img src="static/images/45-458714_boy-child-camera-photo-wallpaper-cute-baby-with.jpg" alt="...">
+            <img class="rounded" src="static/images/45-458714_boy-child-camera-photo-wallpaper-cute-baby-with.jpg" alt="...">
             <div class="card-img-overlay">
             <h3 class="card-title text-start">پسرانه</h3>
             </div>

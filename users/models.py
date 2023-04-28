@@ -22,7 +22,7 @@ class UserAddress(models.Model):
 
 class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
-    paymentMethod = models.CharField(max_length=200, null=True, blank=True)
+    paymentMethod = models.CharField(max_length=200, null=True, blank=True) # default = online
     shippingPrice = models.IntegerField(null=True, blank=True, default=15000)
     totalPrice = models.IntegerField(null=True, blank=True, default=0)
     isPaid = models.BooleanField(default=False)
@@ -37,12 +37,12 @@ class Order(models.Model):
         return str(self.user.username) + ' ' + str(self.totalPrice)
 
     class Meta:
-        ordering = ['createdAt']
+        ordering = ['-createdAt']
 
 
 class OrderItem(models.Model):
     product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
-    order = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True)
+    order = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True) # why not no_delete = CASCADE
     name = models.CharField(max_length=200, null=True, blank=True)
     qty = models.IntegerField(null=True, blank=True, default=0)
     price = models.IntegerField()

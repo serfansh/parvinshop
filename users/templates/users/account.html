@@ -1,4 +1,5 @@
 {% extends 'main.html' %}
+{% load humanize %}
 
 {% block content %} 
 
@@ -80,7 +81,7 @@
       <div class="card-header">
         <h4 style="color: #00076b;"> اطلاعات حساب کاربری</h4>
       </div>
-      <h4 class="text-start ms-3"><a href="" style="text-decoration:none; color: #000471;">تغییر رمز عبور <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-key" viewBox="0 0 16 16">
+      <h4 class="text-start ms-3"><a href="{% url 'changepassword' %}?next={{request.path}}" style="text-decoration:none; color: #000471;">تغییر رمز عبور <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-key" viewBox="0 0 16 16">
         <path d="M0 8a4 4 0 0 1 7.465-2H14a.5.5 0 0 1 .354.146l1.5 1.5a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0L13 9.207l-.646.647a.5.5 0 0 1-.708 0L11 9.207l-.646.647a.5.5 0 0 1-.708 0L9 9.207l-.646.647A.5.5 0 0 1 8 10h-.535A4 4 0 0 1 0 8zm4-3a3 3 0 1 0 2.712 4.285A.5.5 0 0 1 7.163 9h.63l.853-.854a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.793-.793-1-1h-6.63a.5.5 0 0 1-.451-.285A3 3 0 0 0 4 5z"/>
         <path d="M4 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
       </svg></a></h4>
@@ -148,18 +149,54 @@
     </div>
   </div>
 </div>
+
+  {% if ordders %}
+  <hr>
+  <h3 class="text-center">سفارش های پرداخت شده</h3>
+  <p class="text-center">سفارش شما درحال ارسال است</p>
+  {% for order, orderitems in ordders %}
+
+    <div class="row">
+      {% for item in orderitems %}
+      {% if item.product %}
+      <div class="col-lg-4">
+            <a href="{% url 'product' item.product.id %}" style="text-decoration:none; color: #300202;">
+            {% endif %}
+            <div class="card mb-3" style="max-width: 700px; height: 7rem;">
+              <div class="row g-0">
+                <div class="col-md-3">
+                  <img src="{{item.image}}" class="img-fluid" style="height: 7rem; object-fit: cover; width: 100%;" alt="...">
+                </div>
+                <div class="col-md-9">
+                  <div class="card-body">
+                    <h5 class="card-title text-center">{{item.name|truncatewords:7}}</h5>
+                    <p class="card-text text-center">تعداد: {{item.qty}},  {{item.details}}</p>
+                    <p class="card-text text-center">قیمت: {{item.price|intcomma}} تومان </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            </a>
+      </div>
+            {% endfor %}
+
+    </div>
+  {% endfor %}
+  {% endif %}
+
+
     <hr>
 
     <h1 class="text-center">تمام سفارش ها</h1>
-    <table class="table table-dark table-striped-columns">
+    <table class="table table-striped-columns">
       <thead>
         <tr>
-          <th scope="col">order</th>
-          <th scope="col">payment Method</th>
-          <th scope="col">shipping Price</th>
-          <th scope="col">total Price</th>
-          <th scope="col">is Paid</th>
-          <th scope="col">is Delivered</th>
+          <th scope="col">سفارش</th>
+          <th scope="col">روش پرداخت</th>
+          <th scope="col">قیمت پست</th>
+          <th scope="col">قیمت کل</th>
+          <th scope="col">پرداخت شده</th>
+          <th scope="col">دریافت شده</th>
         </tr>
       </thead>
       <tbody>
@@ -167,20 +204,35 @@
         <tr>
           <th scope="row"><div class="dropdown">
               <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                {{order}}
+                محصولات   {{request.user}}
               </button>
               <ul class="dropdown-menu">
                   {% for item in items %}
-                <li><a class="dropdown-item" href="{% url 'product' item.product.id %}">{{item.name}} {{item.qty}}</a></li>
+                <li>
+                  <div class="card mb-3" style="max-width: 700px; height: 7rem;">
+                    <div class="row g-0">
+                      <div class="col-md-3">
+                        <img src="{{item.image}}" class="img-fluid" style="height: 7rem; object-fit: cover; width: 100%;" alt="...">
+                      </div>
+                      <div class="col-md-9">
+                        <div class="card-body">
+                          <p class="card-title text-center">{{item.name|truncatewords:5}}</p>
+                          <p class="card-text text-center">تعداد: {{item.qty}},  {{item.details}}</p>
+                          <p class="card-text text-center">قیمت: {{item.price|intcomma}} تومان </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
   
                 {% endfor %}
               </ul>
             </div></th>
-          <td>{{paymentMethod}}</td>
-          <th>{{shippingPrice}}</th>
-          <th>{{totalPrice}}</th>
-          <th>{{isPaid}}</th>
-          <th>{{isDelivered}}</th>
+          <td>{{order.paymentMethod}}</td>
+          <th>{{order.shippingPrice|intcomma}}</th>
+          <th>{{order.totalPrice|intcomma}}</th>
+          <th>{% if order.isPaid %} بله {% else %} خیر {% endif %}</th>
+          <th>{% if order.isDelivered %} بله {% else %} خیر {% endif %}</th>
         </tr>
         {% endfor %}
       </tbody>

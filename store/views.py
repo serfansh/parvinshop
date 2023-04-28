@@ -4,8 +4,8 @@ from django.contrib import messages
 
 from users.models import OrderItem, Order
 from .models import Product, Image, Color, Size, Csqp
-from .forms import ProductForm, ImageForm, CsqpForm
-from .utils import searchProducts, paginateProducts, deletestuff
+from .forms import ProductForm, ImageForm, CsqpForm, ColorForm, SizeForm
+from .utils import searchProducts, paginateProducts, deletestuff, deletecs, getOrder
 
 
 
@@ -41,13 +41,8 @@ def product(request, pk):
     csqp = product.csqp_set.all()
 
     if request.method == "POST":
-        try:
-            order = request.user.order_set.all()[0]
-            if order.isPaid:
-                raise Exception()
-        except:
-            order = Order.objects.create(user=request.user)
-            
+        order, _ = getOrder(request)
+
         for cs in request.POST.getlist('cs'):
             item = OrderItem.objects.create(
                 product=product,
@@ -64,31 +59,6 @@ def product(request, pk):
     context = {'product': product, 'photos': photos, 'csqp': csqp}
     return render(request, 'store/product.html', context)
     
-
-def card(request):
-    try:
-        order = request.user.order_set.all()[0]
-        if order.isPaid:
-            raise Exception()
-    except:
-        order = None
-
-    if order:
-        orderitems = order.orderitem_set.all()
-    else:
-        orderitems = None
-        
-    address = request.user.useraddress
-    
-    if request.method == "POST":
-        item = OrderItem.objects.get(id=request.POST.get('itemid'))
-        order.totalPrice -= item.price
-        item.delete()
-        order.save()
-
-    context = {'order': order, 'orderitems': orderitems, 'address': address}
-    return render(request, 'store/card.html', context)
-
 
 @user_passes_test(lambda u: u.is_staff)
 def addProduct(request):
@@ -156,3 +126,32 @@ def deleteProduct(request, pk):
     context = {'product': product}
     return render(request, 'store/delete_product.html', context)
 
+
+@user_passes_test(lambda u: u.is_staff)
+def addColor(request):
+    form = ColorForm()
+    colors = Color.objects.all()
+
+    if request.method == 'POST':
+        deletecs(request)
+        cform = ColorForm(request.POST)
+        if cform.is_valid():
+            cform.save()
+
+    context = {'form': form, 'page': 'color', 'colors': colors}
+    return render(request, 'store/addcolorsize.html', context)
+
+
+@user_passes_test(lambda u: u.is_staff)
+def addSize(request):
+    form = SizeForm()
+    sizes = Size.objects.all()
+
+    if request.method == 'POST':
+        deletecs(request)
+        sform = SizeForm(request.POST)
+        if sform.is_valid():
+            sform.save()    
+
+    context = {'form': form, 'sizes': sizes}
+    return render(request, 'store/addcolorsize.html', context)

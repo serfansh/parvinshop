@@ -1,7 +1,7 @@
 from django.db.models import Q, F
-from .models import Product, Csqp, Image
+from .models import Product, Csqp, Image, Color, Size
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
-
+from users.models import Order
 
 
 def searchProducts(request):
@@ -64,11 +64,40 @@ def paginateProducts(request, products, results):
 
 def deletestuff(request):
     try:
-        Csqp.objects.get(id=request.POST.get('csqpid')).delete()
+        Csqp.objects.get(id=request.POST['csqpid']).delete()
     except:
         pass
 
     try:
-        Image.objects.get(id=request.POST.get('imageid')).delete()
+        Image.objects.get(id=request.POST['imageid']).delete()
     except:
         pass
+
+
+def deletecs(request):
+    try:
+        Color.objects.get(id=request.POST['colorid']).delete()
+    except:
+        pass
+    
+    try:
+        Size.objects.get(id=request.POST['sizeid']).delete()
+    except:
+        pass
+
+
+
+def getOrder(request):
+    try:
+        order = request.user.order_set.all()[0]
+        if order.isPaid:
+            raise Exception()
+    except:
+        order = Order.objects.create(user=request.user)
+     
+    if order:
+        orderitems = order.orderitem_set.all()
+    else:
+        orderitems = None
+    
+    return order, orderitems

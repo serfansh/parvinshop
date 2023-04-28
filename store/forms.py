@@ -25,11 +25,21 @@ class ColorForm(ModelForm):
         model = Color
         fields = '__all__'
 
+    def __init__(self, *args, **kwargs):
+        super(ColorForm, self).__init__( *args, **kwargs)
+        for name, field in self.fields.items():
+            field.widget.attrs.update({'class': 'form-control'})
+
 
 class SizeForm(ModelForm):
     class Meta:
         model = Size
         fields = '__all__'
+    
+    def __init__(self, *args, **kwargs):
+        super(SizeForm, self).__init__( *args, **kwargs)
+        for name, field in self.fields.items():
+            field.widget.attrs.update({'class': 'form-control'})
 
 
 class DetailForm(ModelForm):

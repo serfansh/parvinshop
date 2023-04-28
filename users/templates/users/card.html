@@ -14,7 +14,7 @@
             <div class="card mb-3" style="max-width: 800px;">
                 <div class="row g-0">
                   <div class="col-md-3">
-                    <img src="{{item.image}}" class="img-fluid rounded-start" style="height: 10rem; object-fit: cover; width: 100%;" alt="...">
+                    <img src="{{item.image}}" class="img-fluid" style="height: 10rem; object-fit: cover; width: 100%;" alt="...">
                   </div>
                   <div class="col-md-9">
                     <div class="card-body">
@@ -42,9 +42,13 @@
         </div>
         <div class="col ms-3">
           {% if order %}
-            <h2 class="text-end">سفارش های من</h2>
-            <h3 class="text-end fw-normal">قیمت نهایی: {{order.totalPrice|intcomma}}</h3>
+            <h2 class="text-end"> سفارش های من  <a href="{% url 'account' %}" class="fst-italic mt-3 fs-5">تغییر اطلاعات</a></h2>
+            <h3 class="text-end fw-normal">قیمت کالاها: {{order.totalPrice|intcomma}}</h3>
             <h3 class="text-end fw-normal">قیمت پست: {{order.shippingPrice|intcomma}}</h3>
+            <h3 class="text-end fw-normal">قیمت کل: {{totalprice|intcomma}}</h3>
+            {% if order.isPaid %}
+            <h3 class="text-end fw-normal"> سفارش پرداخت شده و درحال پیگیری </h3>
+            {% endif %}
           {% else %}
            <h3>محصولی سفارش داد نشده</h3>
           {% endif %}
@@ -52,7 +56,7 @@
             <h3 class="text-end">آدرس شما</h3>
             <h4 class="text-end fw-normal">{{address.city}} - {{address.address}}</h4>
             <h5 class="text-end fw-normal">کد پستی: {{address.postalcode}}</h5>
-            <a href="" class="btn btn-dark btn-lg mt-3">تکمیل سفارش</a>
+            <a href="" class="btn btn-dark mt-3">پرداخت</a>
         </div>
     </div>
 </div>

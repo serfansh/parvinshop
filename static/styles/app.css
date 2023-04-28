@@ -3,7 +3,7 @@
 }
 
 .c-img {
-  height: 110%;
+  height: 100%;
   object-fit: cover;
   filter: brightness(0.8);
 }
